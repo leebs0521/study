@@ -1,0 +1,29 @@
+# Java 빌드 결과
+*.class
+*.jar
+*.war
+*.ear
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# 빌드 결과물
+out/
+target/
+bin/
+
+# 로그 및 캐시
+*.log
+
+# 운영체제별 파일
+.DS_Store
+Thumbs.db
+
+# 임시 파일
+*.tmp
+*.swp
+*~
+
+# VSCode 무시 (사용 중일 경우만)
+.vscode/
