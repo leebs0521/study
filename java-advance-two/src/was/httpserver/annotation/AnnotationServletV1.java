@@ -1,4 +1,4 @@
-package was.httpserver.servlet;
+package was.httpserver.annotation;
 
 import was.httpserver.HttpRequest;
 import was.httpserver.HttpResponse;
@@ -10,11 +10,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
-public class ReflectionServlet implements HttpServlet {
+public class AnnotationServletV1 implements HttpServlet {
 
     private final List<Object> controllers;
 
-    public ReflectionServlet(List<Object> controllers) {
+    public AnnotationServletV1(List<Object> controllers) {
         this.controllers = controllers;
     }
 
@@ -22,13 +22,15 @@ public class ReflectionServlet implements HttpServlet {
     public void service(HttpRequest request, HttpResponse response) throws IOException {
         String path = request.getPath();
         for (Object controller : controllers) {
-            Class<?> aClass = controller.getClass();
-            Method[] methods = aClass.getDeclaredMethods();
+            Method[] methods = controller.getClass().getDeclaredMethods();
             for (Method method : methods) {
-                String methodName = method.getName();
-                if (path.equals("/" + methodName)) {
-                    invoke(controller, method, request, response);
-                    return;
+                if (method.isAnnotationPresent(Mapping.class)) {
+                    Mapping mapping = method.getAnnotation(Mapping.class);
+                    String value = mapping.value();
+                    if (value.equals(path)) {
+                        invoke(controller, method, request, response);
+                        return;
+                    }
                 }
             }
         }
@@ -36,7 +38,7 @@ public class ReflectionServlet implements HttpServlet {
     }
 
     private void invoke(Object controller, Method method, HttpRequest request, HttpResponse response) {
-        try{
+        try {
             method.invoke(controller, request, response);
         } catch (InvocationTargetException | IllegalAccessException e) {
             throw new RuntimeException(e);
