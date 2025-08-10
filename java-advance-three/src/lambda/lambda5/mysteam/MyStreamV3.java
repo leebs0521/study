@@ -14,7 +14,7 @@ public class MyStreamV3<T> {
         this.internalList = list;
     }
 
-    static <T> MyStreamV3<T> of(List<T> list) {
+    public static <T> MyStreamV3<T> of(List<T> list) {
         return new MyStreamV3<>(list);
     }
 
@@ -44,5 +44,9 @@ public class MyStreamV3<T> {
         for (T element : internalList) {
             consumer.accept(element);
         }
+    }
+
+    public T getFirst() {
+        return internalList.getFirst();
     }
 }
