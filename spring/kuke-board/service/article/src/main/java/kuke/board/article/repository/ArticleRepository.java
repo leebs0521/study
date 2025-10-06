@@ -42,4 +42,8 @@ public class ArticleRepository {
     public List<Article> findAllInfiniteScroll(Long boardId, Long limit) {
         return queryRepository.findAllInfiniteScroll(boardId, limit);
     }
+
+    public void delete(Article article) {
+        jpaRepository.delete(article);
+    }
 }
