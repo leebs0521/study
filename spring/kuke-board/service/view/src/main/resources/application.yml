@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: kuke-board-like-service
+    name: kuke-board-view-service
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/article
